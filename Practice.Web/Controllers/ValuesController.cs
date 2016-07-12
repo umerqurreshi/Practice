@@ -19,7 +19,7 @@ namespace Practice.Web.Controllers
         //public ValuesController() { }
         public ValuesController(IAddEmployee addEmployee, IDeleteEmployee deleteEmployee)
         {
-            _addEmployee = addEmployee;
+            _addEmployee = addEmployee;//
             _deleteEmployee = deleteEmployee;
         }
 
