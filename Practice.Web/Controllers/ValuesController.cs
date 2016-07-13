@@ -25,7 +25,7 @@ namespace Practice.Web.Controllers
 
         [HttpPost]
         [Route("employee/add")]
-        public async Task<HttpResponseMessage> AddEmployee([FromBody] Employees emp)
+        public async Task<HttpResponseMessage> AddEmployee([FromBody] List<Employees> emp)
         {
             var retVal = new HttpResponseMessage();
 
@@ -63,6 +63,7 @@ namespace Practice.Web.Controllers
                         StatusCode = HttpStatusCode.BadRequest,
                         ReasonPhrase = $"{HttpReasonPhrases.FailedPost}"
                     };
+
                 }
 
             return retVal;
