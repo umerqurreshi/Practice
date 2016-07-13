@@ -14,15 +14,17 @@ namespace Repository.MasterRepo
             using (var context = new DataContext())
             {
                 var employee = context.Employees.Where(x => x.EmployeeId == id).First();
-                var perksForEmployee = employee.Perks;
-
-                foreach (var perk in perksForEmployee.ToList())
-                {
-                    context.AddedBonus.Remove(perk.AddedBonus);
-                }
+                
 
                 if (employee != null)
                 {
+                    var perksForEmployee = employee.Perks;
+
+                    foreach (var perk in perksForEmployee.ToList())
+                    {
+                        context.AddedBonus.Remove(perk.AddedBonus);
+                    }
+
                     await Task.Run(() => context.Employees.Remove(employee));
                     //await Task.WhenAll(context.Employees.Remove(employee), context.AddedBonus.Remove(addedBonus));
                     context.SaveChanges();
@@ -30,7 +32,7 @@ namespace Repository.MasterRepo
             }
         }
 
-        public Task Add(Employees entity)
+        public Task Add(Employees emp)
         {
             throw new NotImplementedException();
         }

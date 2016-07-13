@@ -1,6 +1,7 @@
 ﻿using DbOps.DtoModels;
 using Practice.Services.Interfaces;
 using Repository.Interfaces;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Practice.Services.EmployeesCRUD
@@ -14,7 +15,7 @@ namespace Practice.Services.EmployeesCRUD
             _repo = repo;
         }
 
-        public async Task Add(Employees emp)
+        public async Task Add(List<Employees> emp)
         {
             // Business logic
            await _repo.Add(emp);
