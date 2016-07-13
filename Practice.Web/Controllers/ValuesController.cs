@@ -16,10 +16,9 @@ namespace Practice.Web.Controllers
         private readonly IAddEmployee _addEmployee;
         private readonly IDeleteEmployee _deleteEmployee;
 
-        //public ValuesController() { }
         public ValuesController(IAddEmployee addEmployee, IDeleteEmployee deleteEmployee)
         {
-            _addEmployee = addEmployee;//
+            _addEmployee = addEmployee;
             _deleteEmployee = deleteEmployee;
         }
 

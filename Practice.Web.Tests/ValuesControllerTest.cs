@@ -36,7 +36,7 @@ namespace Practice.Web.Tests
 
 
         [TestMethod]
-        public void AddEmployee_ValidInputReturnsHttpResponseMessageStatusOK()
+        public void AddEmployee_ValidInputReturnsHttpStatusCodeOK()
         {
             //Arrange
             _addEmployeeMock.Setup(x => x.Add(It.IsAny<List<Employees>>()))
@@ -45,6 +45,17 @@ namespace Practice.Web.Tests
             var response = valuesController.AddEmployee(It.IsAny<List<Employees>>()).Result;
             //Assert
             Assert.IsTrue(response.StatusCode == HttpStatusCode.OK);
+        }
+
+        [TestMethod]
+        public void AddEmployee_ValidInputReturnsCorrectReasonPhrase()
+        {
+            //Arrange
+            _addEmployeeMock.Setup(x => x.Add(It.IsAny<List<Employees>>()))
+                .Returns(Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)));
+            //Act
+            var response = valuesController.AddEmployee(It.IsAny<List<Employees>>()).Result;
+            //Assert
             Assert.IsTrue(response.ReasonPhrase == "Entry saved");
         }
     }
