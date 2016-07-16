@@ -24,18 +24,20 @@ namespace Repository.MasterRepo
                 employee.BadgeNumber = emp.BadgeNumber;
                 employee.Firstname = emp.Firstname;
                 employee.Lastname = emp.Lastname;
-                employee.Perks = emp.Perks;
 
-                context.Employees.Attach(employee);
-                var entry = context.Entry(employee);
-                for (int i = 0; i < employee.Perks.Count; i++)
+                // retrieve perks belonging to employee
+                var perks = employee.Perks.ToList();
+
+                // updated perks
+                var updatedPerks = emp.Perks.ToList();
+
+                for (int i = 0; i < updatedPerks.Count; i++)
                 {
-
-                    entry.Property(x => x.Perks.Select(j => j.PerkDuration)).IsModified = true;             
+                    var matchedPerks = perks.Where(x => x.PerkId == updatedPerks[i].PerkId).ToList();
+                    matchedPerks[i].PerkDuration = updatedPerks[i].PerkDuration;
                 }
-                
-               // context.Entry(employee).State = EntityState.Modified;
-                
+
+                // context.Entry(employee).State = EntityState.Modified;
 
                 await Task.Run(() => context.SaveChanges());
             }
