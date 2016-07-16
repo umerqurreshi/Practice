@@ -27,7 +27,14 @@ namespace Repository.MasterRepo
                 employee.Perks = emp.Perks;
 
                 context.Employees.Attach(employee);
-                context.Entry(employee).State = EntityState.Modified;
+                var entry = context.Entry(employee);
+                for (int i = 0; i < employee.Perks.Count; i++)
+                {
+
+                    entry.Property(x => x.Perks.Select(j => j.PerkDuration)).IsModified = true;             
+                }
+                
+               // context.Entry(employee).State = EntityState.Modified;
                 
 
                 await Task.Run(() => context.SaveChanges());
