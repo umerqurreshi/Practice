@@ -34,7 +34,7 @@ namespace Repository.MasterRepo
                 for (int i = 0; i < updatedPerks.Count; i++)
                 {
                     var matchedPerks = perks.Where(x => x.PerkId == updatedPerks[i].PerkId).ToList();
-                    matchedPerks[i].PerkDuration = updatedPerks[i].PerkDuration;
+                    updatedPerks[i].PerkDuration = matchedPerks[i].PerkDuration;
                 }
 
                 // context.Entry(employee).State = EntityState.Modified;
