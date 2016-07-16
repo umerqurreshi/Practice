@@ -32,16 +32,6 @@ namespace Repository.MasterRepo
             }
         }
 
-        public Task Add(Employees emp)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void CreateDatabase()
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task Delete(Employees emp)
         {
             throw new NotImplementedException();
