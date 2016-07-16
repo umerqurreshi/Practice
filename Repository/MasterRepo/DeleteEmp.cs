@@ -1,7 +1,5 @@
 ﻿using DbOps;
-using DbOps.DtoModels;
 using Repository.Interfaces;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -30,11 +28,6 @@ namespace Repository.MasterRepo
                     context.SaveChanges();
                 }
             }
-        }
-
-        public async Task Delete(Employees emp)
-        {
-            throw new NotImplementedException();
         }
     }
 }
