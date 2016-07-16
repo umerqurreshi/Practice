@@ -1,5 +1,4 @@
-﻿using DbOps.DtoModels;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Practice.Services.Interfaces
 {
