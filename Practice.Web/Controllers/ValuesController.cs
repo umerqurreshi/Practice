@@ -15,20 +15,20 @@ namespace Practice.Web.Controllers
     {
         private readonly IAddEmployee _addEmployee;
         private readonly IDeleteEmployee _deleteEmployee;
+        private readonly IUpdateEmployee _updateEmployee;
 
         //public ValuesController() { }
-        public ValuesController(IAddEmployee addEmployee, IDeleteEmployee deleteEmployee)
+        public ValuesController(IAddEmployee addEmployee, IDeleteEmployee deleteEmployee, IUpdateEmployee updateEmployee)
         {
             _addEmployee = addEmployee;
             _deleteEmployee = deleteEmployee;
+            _updateEmployee = updateEmployee;
         }
 
         [HttpPost]
         [Route("employee/add")]
         public async Task<HttpResponseMessage> AddEmployee([FromBody] List<Employees> emp)
         {
-            var retVal = new HttpResponseMessage();
-
             //Use below commented out code when checking if returned obj is what you expect
 
             /*var content = Request.Content.ReadAsStringAsync().Result;
@@ -50,7 +50,7 @@ namespace Practice.Web.Controllers
                 {
                     await _addEmployee.Add(emp);
 
-                    retVal = new HttpResponseMessage
+                    return new HttpResponseMessage
                     {
                         StatusCode = HttpStatusCode.OK,
                         ReasonPhrase = HttpReasonPhrases.SuccessfulPost
@@ -58,15 +58,13 @@ namespace Practice.Web.Controllers
                 }
                 else
                 {
-                    retVal = new HttpResponseMessage
+                    return new HttpResponseMessage
                     {
                         StatusCode = HttpStatusCode.BadRequest,
                         ReasonPhrase = $"{HttpReasonPhrases.FailedPost}"
                     };
 
                 }
-
-            return retVal;
         }
 
         // GET api/values
@@ -94,10 +92,28 @@ namespace Practice.Web.Controllers
             };
         }
 
-        // GET api/values/5
-        public string Get(int id)
+        [HttpPost]
+        [Route("employee/update/{id}")]
+        public async Task<HttpResponseMessage> UpdateEmployee([FromUri]int id, [FromBody] Employees emp)
         {
-            return "value";
+            try
+            {
+               await _updateEmployee.Update(id, emp);
+            }
+            catch (Exception ex)
+            {
+                return new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.BadRequest,
+                    ReasonPhrase = $"{HttpReasonPhrases.FailedUpdate} {ex.ToString()}"
+                };
+            }
+
+            return new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                ReasonPhrase = HttpReasonPhrases.SuccessfulUpdate
+            };
         }
 
         // POST api/values

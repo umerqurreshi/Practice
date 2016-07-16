@@ -42,8 +42,10 @@
   <ItemGroup>
     <Compile Include="EmployeesCRUD\AddEmployee.cs" />
     <Compile Include="EmployeesCRUD\DeleteEmployee.cs" />
+    <Compile Include="EmployeesCRUD\UpdateEmployee.cs" />
     <Compile Include="Interfaces\IAddEmployee.cs" />
     <Compile Include="Interfaces\IDeleteEmployee.cs" />
+    <Compile Include="Interfaces\IUpdateEmployee.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

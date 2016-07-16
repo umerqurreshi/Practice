@@ -16,6 +16,7 @@ namespace Practice.Web.Tests
         private MockRepository _repository;
         private Mock<IAddEmployee> _addEmployeeMock;
         private Mock<IDeleteEmployee> _deleteEmployeeMock;
+        private Mock<IUpdateEmployee> _updateEmployeeMock;
         private ValuesController valuesController;
 
         [TestInitialize]
@@ -24,7 +25,7 @@ namespace Practice.Web.Tests
             _repository = new MockRepository(MockBehavior.Strict);
             _addEmployeeMock = _repository.Create<IAddEmployee>();
             _deleteEmployeeMock = _repository.Create<IDeleteEmployee>();
-            valuesController = new ValuesController(_addEmployeeMock.Object, _deleteEmployeeMock.Object);
+            valuesController = new ValuesController(_addEmployeeMock.Object, _deleteEmployeeMock.Object, _updateEmployeeMock.Object);
         }
 
         [TestCleanup]
@@ -32,7 +33,6 @@ namespace Practice.Web.Tests
         {
             _repository.VerifyAll();
         }
-
 
         [TestMethod]
         public void AddEmployee_ValidInputReturnsHttpResponseMessageStatusOK()
@@ -59,4 +59,3 @@ namespace Practice.Web.Tests
         }
     }
 }
-

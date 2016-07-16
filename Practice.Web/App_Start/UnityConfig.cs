@@ -21,8 +21,10 @@ namespace Practice.Web
            
             container.RegisterType<IAddEmployee, AddEmployee>();
             container.RegisterType<IDeleteEmployee, DeleteEmployee>();
+            container.RegisterType<IUpdateEmployee, UpdateEmployee>();
             container.RegisterType<IAddEmp, AddEmp>();
             container.RegisterType<IDeleteEmp, DeleteEmp>();
+            container.RegisterType<IUpdateEmp, UpdateEmp>();
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }
     }

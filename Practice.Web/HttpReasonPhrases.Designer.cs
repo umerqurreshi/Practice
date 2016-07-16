@@ -79,6 +79,15 @@ namespace Practice.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Employee update failed.
+        /// </summary>
+        internal static string FailedUpdate {
+            get {
+                return ResourceManager.GetString("FailedUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Employee deleted.
         /// </summary>
         internal static string SuccessfulDelete {
@@ -93,6 +102,15 @@ namespace Practice.Web {
         internal static string SuccessfulPost {
             get {
                 return ResourceManager.GetString("SuccessfulPost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Employee updated.
+        /// </summary>
+        internal static string SuccessfulUpdate {
+            get {
+                return ResourceManager.GetString("SuccessfulUpdate", resourceCulture);
             }
         }
     }
