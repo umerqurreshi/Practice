@@ -5,7 +5,6 @@ namespace Practice.Services.Interfaces
 {
     public interface IDeleteEmployee
     {
-        Task Delete(Employees emp);
         Task Delete(int id);
     }
 }

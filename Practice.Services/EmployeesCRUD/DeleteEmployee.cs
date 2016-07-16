@@ -14,12 +14,6 @@ namespace Practice.Services.EmployeesCRUD
             _repo = repo;
         }
 
-        public async Task Delete(Employees emp)
-        {
-            // Business logic
-            await _repo.Delete(emp);
-        }
-
         public async Task Delete(int id)
         {
             await _repo.Delete(id);
