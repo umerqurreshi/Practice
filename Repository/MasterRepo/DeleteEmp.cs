@@ -12,13 +12,10 @@ namespace Repository.MasterRepo
             using (var context = new DataContext())
             {
                 var employee = context.Employees.Where(x => x.EmployeeId == id).First();
-                
 
                 if (employee != null)
                 {
-                    var perksForEmployee = employee.Perks;
-
-                    foreach (var perk in perksForEmployee.ToList())
+                    foreach (var perk in employee.Perks)
                     {
                         context.AddedBonus.Remove(perk.AddedBonus);
                     }
