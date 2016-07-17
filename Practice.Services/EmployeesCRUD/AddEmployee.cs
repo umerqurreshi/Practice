@@ -17,7 +17,7 @@ namespace Practice.Services.EmployeesCRUD
 
         public async Task Add(List<Employees> emp)
         {
-            // Business logic
+            // Business logic - defensive coding - if succinct, never a bad thing!
             foreach (var employee in emp)
             {
                 if (string.IsNullOrEmpty(employee.Firstname))

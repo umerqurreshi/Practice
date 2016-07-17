@@ -88,6 +88,11 @@ namespace Practice.Web.Tests
                 new Employees
                 {
                     Lastname = "Dalton"
+                },
+                new Employees
+                {
+                    Firstname = "Kim",
+                    Lastname = "Dalton"
                 }
             };
             //Act
