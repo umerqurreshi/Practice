@@ -27,7 +27,7 @@ namespace Practice.Web.Controllers
 
         [HttpPost]
         [Route("employee/add")]
-        public async Task<HttpResponseMessage> AddEmployee([FromBody] List<Employees> emp)
+        public async Task<HttpResponseMessage> AddEmployee(List<Employees> emp)
         {
             //Use below commented out code when checking if returned obj is what you expect
 
@@ -94,7 +94,7 @@ namespace Practice.Web.Controllers
 
         [HttpPost]
         [Route("employee/update/{id}")]
-        public async Task<HttpResponseMessage> UpdateEmployee([FromUri]int id, [FromBody] Employees emp)
+        public async Task<HttpResponseMessage> UpdateEmployee([FromUri]int id, Employees emp)
         {
             try
             {

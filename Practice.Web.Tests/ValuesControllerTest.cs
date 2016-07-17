@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Practice.Web.Controllers;
 using System.Net;
 using System.Net.Http;
+using System.Web.Http;
 
 namespace Practice.Web.Tests
 {
@@ -25,6 +26,7 @@ namespace Practice.Web.Tests
             _repository = new MockRepository(MockBehavior.Strict);
             _addEmployeeMock = _repository.Create<IAddEmployee>();
             _deleteEmployeeMock = _repository.Create<IDeleteEmployee>();
+            _updateEmployeeMock = _repository.Create<IUpdateEmployee>();
             valuesController = new ValuesController(_addEmployeeMock.Object, _deleteEmployeeMock.Object, _updateEmployeeMock.Object);
         }
 
@@ -35,7 +37,7 @@ namespace Practice.Web.Tests
         }
 
         [TestMethod]
-        public void AddEmployee_ValidInputReturnsHttpResponseMessageStatusOK()
+        public void AddEmployee_ValidInputReturnsCorrectHttpResponseMessageStatus()
         {
             //Arrange
             _addEmployeeMock.Setup(x => x.Add(It.IsAny<List<Employees>>()))
@@ -56,6 +58,44 @@ namespace Practice.Web.Tests
             var response = valuesController.AddEmployee(It.IsAny<List<Employees>>()).Result;
             //Assert
             Assert.IsTrue(response.ReasonPhrase == "Entry saved");
+        }
+
+        [TestMethod]
+        public void AddEmployee_InvalidInputReturnsCorrectHttpResponseMessageStatus()
+        {
+            //Arrange
+            var emp = new List<Employees>
+            {
+                new Employees
+                {
+                    Lastname = "Dalton"
+                }
+            };
+            //Act
+            valuesController.Configuration = new HttpConfiguration();
+            valuesController.Validate(emp);
+            var response = valuesController.AddEmployee(emp).Result;
+            //Assert
+            Assert.IsTrue(response.StatusCode == HttpStatusCode.BadRequest);
+        }
+
+        [TestMethod]
+        public void AddEmployee_InvalidInputReturnsCorrectHttpReasonPhrase()
+        {
+            //Arrange
+            var emp = new List<Employees>
+            {
+                new Employees
+                {
+                    Lastname = "Dalton"
+                }
+            };
+            //Act
+            valuesController.Configuration = new HttpConfiguration();
+            valuesController.Validate(emp);
+            var response = valuesController.AddEmployee(emp).Result;
+            //Assert
+            Assert.IsTrue(response.ReasonPhrase == "Entry not saved");
         }
     }
 }

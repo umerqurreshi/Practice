@@ -18,6 +18,13 @@ namespace Practice.Services.EmployeesCRUD
         public async Task Add(List<Employees> emp)
         {
             // Business logic
+            foreach (var employee in emp)
+            {
+                if (string.IsNullOrEmpty(employee.Firstname))
+                {
+                    emp.Remove(employee);
+                }
+            }
            await _repo.Add(emp);
         }
     }
