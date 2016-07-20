@@ -1,7 +1,5 @@
 ﻿using DbOps;
-using DbOps.DtoModels;
 using Repository.Interfaces;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,13 +12,10 @@ namespace Repository.MasterRepo
             using (var context = new DataContext())
             {
                 var employee = context.Employees.Where(x => x.EmployeeId == id).First();
-                
 
                 if (employee != null)
                 {
-                    var perksForEmployee = employee.Perks;
-
-                    foreach (var perk in perksForEmployee.ToList())
+                    foreach (var perk in employee.Perks)
                     {
                         context.AddedBonus.Remove(perk.AddedBonus);
                     }
@@ -30,21 +25,6 @@ namespace Repository.MasterRepo
                     context.SaveChanges();
                 }
             }
-        }
-
-        public Task Add(Employees emp)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void CreateDatabase()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task Delete(Employees emp)
-        {
-            throw new NotImplementedException();
         }
     }
 }

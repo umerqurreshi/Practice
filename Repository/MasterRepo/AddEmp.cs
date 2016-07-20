@@ -1,13 +1,13 @@
 ﻿using DbOps;
 using DbOps.DtoModels;
 using Repository.Interfaces;
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Repository.MasterRepo
 {
-    public class AddEmp : IMasterRepo<Employees>, IAddEmp
+    public class AddEmp : IAddEmp
     {
         public async Task Add(List<Employees> emp)
         {
@@ -15,31 +15,20 @@ namespace Repository.MasterRepo
             {
                 for (int i = 0; i < emp.Count; i++)
                 {
-                    await Task.Run(() => context.Employees.Add(emp[i]));
+                    var employee = emp[i];
+                    var existingEmp = context.Employees.Where(x => x.EmployeeId == employee.EmployeeId).ToList();
+                    if (existingEmp.Contains(emp[i]))
+                    {
+
+                    }
+                    else
+                    {
+                        await Task.Run(() => context.Employees.Add(emp[i]));
+                    }
                 }
                 
                 context.SaveChanges();
             }
-        }
-
-        public void CreateDatabase()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task Delete(List<Employees> entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task Delete(Employees emp)
-        {
-            throw new NotImplementedException();
         }
     }
 }

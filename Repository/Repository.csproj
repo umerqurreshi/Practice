@@ -45,9 +45,11 @@
     <Compile Include="Interfaces\IDeleteEmp.cs" />
     <Compile Include="Interfaces\IMasterRepo.cs" />
     <Compile Include="Interfaces\IMasterRepoTemplate.cs" />
+    <Compile Include="Interfaces\IUpdateEmp.cs" />
     <Compile Include="MasterRepo\AddEmp.cs" />
     <Compile Include="MasterRepo\DeleteEmp.cs" />
     <Compile Include="MasterRepo\MasterRepoTemplate.cs" />
+    <Compile Include="MasterRepo\UpdateEmp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

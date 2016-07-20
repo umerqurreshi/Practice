@@ -125,6 +125,10 @@
     <value>Entry not saved</value>
     <comment>The post was unsuccessful - the data was not saved</comment>
   </data>
+  <data name="FailedUpdate" xml:space="preserve">
+    <value>Employee update failed</value>
+    <comment>The employee was not updated</comment>
+  </data>
   <data name="SuccessfulDelete" xml:space="preserve">
     <value>Employee deleted</value>
     <comment>The employee was deleted</comment>
@@ -132,5 +136,9 @@
   <data name="SuccessfulPost" xml:space="preserve">
     <value>Entry saved</value>
     <comment>The post was successful - the data was saved</comment>
+  </data>
+  <data name="SuccessfulUpdate" xml:space="preserve">
+    <value>Employee updated</value>
+    <comment>The employee was successfully update</comment>
   </data>
 </root>
