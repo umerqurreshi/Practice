@@ -8,6 +8,7 @@ using Practice.Web.Controllers;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.ModelBinding;
 
 namespace Practice.Web.Tests
 {
@@ -18,6 +19,7 @@ namespace Practice.Web.Tests
         private Mock<IAddEmployee> _addEmployeeMock;
         private Mock<IDeleteEmployee> _deleteEmployeeMock;
         private Mock<IUpdateEmployee> _updateEmployeeMock;
+        private Mock<IModelstateErrorLogger> _modelstateErrorLoggerMock;
         private ValuesController valuesController;
 
         [TestInitialize]
@@ -27,7 +29,8 @@ namespace Practice.Web.Tests
             _addEmployeeMock = _repository.Create<IAddEmployee>();
             _deleteEmployeeMock = _repository.Create<IDeleteEmployee>();
             _updateEmployeeMock = _repository.Create<IUpdateEmployee>();
-            valuesController = new ValuesController(_addEmployeeMock.Object, _deleteEmployeeMock.Object, _updateEmployeeMock.Object);
+            _modelstateErrorLoggerMock = _repository.Create<IModelstateErrorLogger>();
+            valuesController = new ValuesController(_addEmployeeMock.Object, _deleteEmployeeMock.Object, _updateEmployeeMock.Object, _modelstateErrorLoggerMock.Object);
         }
 
         [TestCleanup]
@@ -71,10 +74,13 @@ namespace Practice.Web.Tests
                     Lastname = "Dalton"
                 }
             };
+            _modelstateErrorLoggerMock.Setup(x => x.ModelstateErrors(It.IsAny<ModelStateDictionary>()))
+                .Returns("First name is required");
             //Act
             valuesController.Configuration = new HttpConfiguration();
             valuesController.Validate(emp);
             var response = valuesController.AddEmployee(emp).Result;
+
             //Assert
             Assert.IsTrue(response.StatusCode == HttpStatusCode.BadRequest);
         }
@@ -88,19 +94,63 @@ namespace Practice.Web.Tests
                 new Employees
                 {
                     Lastname = "Dalton"
-                },
-                new Employees
-                {
-                    Firstname = "Kim",
-                    Lastname = "Dalton"
                 }
             };
+
+            _modelstateErrorLoggerMock.Setup(x => x.ModelstateErrors(It.IsAny<ModelStateDictionary>()))
+                .Returns("First name is required. ");
+
             //Act
             valuesController.Configuration = new HttpConfiguration();
             valuesController.Validate(emp);
             var response = valuesController.AddEmployee(emp).Result;
+
             //Assert
-            Assert.IsTrue(response.ReasonPhrase == "Entry not saved");
+            Assert.IsTrue(response.ReasonPhrase == "Entry not saved. First name is required. ");
+        }
+
+        [TestMethod]
+        public void UpdateEmployee_ValidInputReturnsCorrectHttpReasonPhrase()
+        {
+            //Arrange
+            var emp = new Employees
+            {
+                Firstname = "Kim",
+                Lastname = "Dalton"
+            };
+
+            _updateEmployeeMock.Setup(x => x.Update(It.IsAny<int>(), It.IsAny<Employees>()))
+                .Returns(Task.FromResult(new HttpResponseMessage { ReasonPhrase = "Employee updated" }));
+
+            //Act
+            valuesController.Configuration = new HttpConfiguration();
+            valuesController.Validate(emp);
+            var response = valuesController.UpdateEmployee(1, emp).Result;
+
+            //Assert
+            Assert.IsTrue(response.ReasonPhrase == "Employee updated");
+        }
+
+        [TestMethod]
+        public void UpdateEmployee_InvalidInputReturnsCorrectHttpReasonPhrase()
+        {
+            //Arrange
+            var emp = new Employees
+            {
+                Lastname = "Dalton"
+            };
+
+
+            _modelstateErrorLoggerMock.Setup(x => x.ModelstateErrors(It.IsAny<ModelStateDictionary>()))
+                .Returns("First name is required. ");
+
+            //Act
+            valuesController.Configuration = new HttpConfiguration();
+            valuesController.Validate(emp);
+            var response = valuesController.UpdateEmployee(1, emp).Result;
+
+            //Assert
+            Assert.IsTrue(response.ReasonPhrase == "Employee update failed. First name is required. ");
         }
     }
 }

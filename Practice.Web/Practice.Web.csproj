@@ -196,8 +196,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>HttpReasonPhrases.resx</DependentUpon>
     </Compile>
+    <Compile Include="IModelstateErrorLogger.cs" />
     <Compile Include="IOC\UnityHttpControllerActivator.cs" />
     <Compile Include="IOC\UnityResolver.cs" />
+    <Compile Include="ModelstateErrors\ModelstateErrorLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

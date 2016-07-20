@@ -1,6 +1,4 @@
-﻿using DbOps;
-using DbOps.DtoModels;
-using Newtonsoft.Json;
+﻿using DbOps.DtoModels;
 using Practice.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -16,13 +14,15 @@ namespace Practice.Web.Controllers
         private readonly IAddEmployee _addEmployee;
         private readonly IDeleteEmployee _deleteEmployee;
         private readonly IUpdateEmployee _updateEmployee;
+        private readonly IModelstateErrorLogger _modelstateErrorLogger;
 
         //public ValuesController() { }
-        public ValuesController(IAddEmployee addEmployee, IDeleteEmployee deleteEmployee, IUpdateEmployee updateEmployee)
+        public ValuesController(IAddEmployee addEmployee, IDeleteEmployee deleteEmployee, IUpdateEmployee updateEmployee, IModelstateErrorLogger modelstateLoggerError)
         {
             _addEmployee = addEmployee;
             _deleteEmployee = deleteEmployee;
             _updateEmployee = updateEmployee;
+            _modelstateErrorLogger = modelstateLoggerError;
         }
 
         [HttpPost]
@@ -47,24 +47,26 @@ namespace Practice.Web.Controllers
             }*/
 
             if (ModelState.IsValid)
-                {
-                    await _addEmployee.Add(emp);
+            {
+                await _addEmployee.Add(emp);
 
-                    return new HttpResponseMessage
-                    {
-                        StatusCode = HttpStatusCode.OK,
-                        ReasonPhrase = HttpReasonPhrases.SuccessfulPost
-                    };
-                }
-                else
+                return new HttpResponseMessage
                 {
-                    return new HttpResponseMessage
-                    {
-                        StatusCode = HttpStatusCode.BadRequest,
-                        ReasonPhrase = $"{HttpReasonPhrases.FailedPost}"
-                    };
+                    StatusCode = HttpStatusCode.OK,
+                    ReasonPhrase = HttpReasonPhrases.SuccessfulPost
+                };
+            }
+            else
+            {
+                string modelstateErrors = _modelstateErrorLogger.ModelstateErrors(ModelState);
 
-                }
+                return new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.BadRequest,
+                    ReasonPhrase = $"{HttpReasonPhrases.FailedPost}. {modelstateErrors}"
+                };
+
+            }
         }
 
         // GET api/values
@@ -96,24 +98,26 @@ namespace Practice.Web.Controllers
         [Route("employee/update/{id}")]
         public async Task<HttpResponseMessage> UpdateEmployee([FromUri]int id, Employees emp)
         {
-            try
+            if (ModelState.IsValid)
             {
-               await _updateEmployee.Update(id, emp);
+                await _updateEmployee.Update(id, emp);
+
+                return new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    ReasonPhrase = $"{HttpReasonPhrases.SuccessfulUpdate}"
+                };
             }
-            catch (Exception ex)
+            else
             {
+                string modelstateErrors = _modelstateErrorLogger.ModelstateErrors(ModelState);
+
                 return new HttpResponseMessage
                 {
                     StatusCode = HttpStatusCode.BadRequest,
-                    ReasonPhrase = $"{HttpReasonPhrases.FailedUpdate} {ex.ToString()}"
+                    ReasonPhrase = $"{HttpReasonPhrases.FailedUpdate}. {modelstateErrors}"
                 };
             }
-
-            return new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK,
-                ReasonPhrase = HttpReasonPhrases.SuccessfulUpdate
-            };
         }
 
         // POST api/values

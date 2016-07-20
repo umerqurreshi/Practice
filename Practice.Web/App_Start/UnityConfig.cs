@@ -1,6 +1,7 @@
 using Microsoft.Practices.Unity;
 using Practice.Services.EmployeesCRUD;
 using Practice.Services.Interfaces;
+using Practice.Web.ModelstateErrors;
 using Repository.Interfaces;
 using Repository.MasterRepo;
 using System.Web.Http;
@@ -25,6 +26,7 @@ namespace Practice.Web
             container.RegisterType<IAddEmp, AddEmp>();
             container.RegisterType<IDeleteEmp, DeleteEmp>();
             container.RegisterType<IUpdateEmp, UpdateEmp>();
+            container.RegisterType<IModelstateErrorLogger, ModelstateErrorLogger>();
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }
     }
