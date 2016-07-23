@@ -1,10 +1,14 @@
 ﻿using DbOps.DtoModels;
 using Practice.Services.Interfaces;
+using Practice.Web.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Web.Helpers;
 using System.Web.Http;
 
 namespace Practice.Web.Controllers
@@ -15,14 +19,58 @@ namespace Practice.Web.Controllers
         private readonly IDeleteEmployee _deleteEmployee;
         private readonly IUpdateEmployee _updateEmployee;
         private readonly IModelstateErrorLogger _modelstateErrorLogger;
+        private readonly ICookieValidator _cookieValidator;
+        
 
         //public ValuesController() { }
-        public ValuesController(IAddEmployee addEmployee, IDeleteEmployee deleteEmployee, IUpdateEmployee updateEmployee, IModelstateErrorLogger modelstateLoggerError)
+        public ValuesController(IAddEmployee addEmployee, IDeleteEmployee deleteEmployee, IUpdateEmployee updateEmployee, IModelstateErrorLogger modelstateLoggerError, ICookieValidator cookieValidator)
         {
             _addEmployee = addEmployee;
             _deleteEmployee = deleteEmployee;
             _updateEmployee = updateEmployee;
             _modelstateErrorLogger = modelstateLoggerError;
+            _cookieValidator = cookieValidator;
+        }
+
+        [HttpGet]
+        [Route("generateCookies")]
+        public HttpResponseMessage CreateCookies()
+        {
+            string cookieToken, formToken;
+            _cookieValidator.GetTokens(null, out cookieToken, out formToken);
+            var chv = _cookieValidator.CreateCookie(cookieToken);
+            var response = new HttpResponseMessage();
+            response.Headers.Add("Location", $"{ConfigurationManager.AppSettings["url"]}{formToken}");
+            response.StatusCode = HttpStatusCode.Redirect;
+            response.Headers.AddCookies(chv);
+            return response;
+        }
+
+
+        [Route("verify")]
+        public HttpResponseMessage Get(string token)
+        {
+            string formToken = token;
+
+            try
+            {
+                string getCookie = Request.Headers.GetCookies("apiCookie")[0].ToString();
+                _cookieValidator.Validate(Request, formToken);
+            }
+            catch (Exception ex)
+            {
+                // log to db later
+                return new HttpResponseMessage
+                {
+                    ReasonPhrase = "AntiForgery Token validation failed",
+                    StatusCode = HttpStatusCode.BadRequest
+                };
+            }
+
+            HttpResponseMessage response = new HttpResponseMessage();
+            response.Headers.Add("Location", ConfigurationManager.AppSettings["LinkedIn"]);
+            response.StatusCode = HttpStatusCode.Redirect;
+            return response;
         }
 
         [HttpPost]

@@ -1,6 +1,8 @@
 using Microsoft.Practices.Unity;
 using Practice.Services.EmployeesCRUD;
 using Practice.Services.Interfaces;
+using Practice.Web.CookieOps;
+using Practice.Web.Interfaces;
 using Practice.Web.ModelstateErrors;
 using Repository.Interfaces;
 using Repository.MasterRepo;
@@ -27,6 +29,7 @@ namespace Practice.Web
             container.RegisterType<IDeleteEmp, DeleteEmp>();
             container.RegisterType<IUpdateEmp, UpdateEmp>();
             container.RegisterType<IModelstateErrorLogger, ModelstateErrorLogger>();
+            container.RegisterType<ICookieValidator, CookieValidator>();
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }
     }

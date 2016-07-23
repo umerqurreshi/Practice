@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.ModelBinding;
+using Practice.Web.Interfaces;
 
 namespace Practice.Web.Tests
 {
@@ -20,6 +21,7 @@ namespace Practice.Web.Tests
         private Mock<IDeleteEmployee> _deleteEmployeeMock;
         private Mock<IUpdateEmployee> _updateEmployeeMock;
         private Mock<IModelstateErrorLogger> _modelstateErrorLoggerMock;
+        private Mock<ICookieValidator> _cookieValidatorMock;
         private ValuesController valuesController;
 
         [TestInitialize]
@@ -30,7 +32,8 @@ namespace Practice.Web.Tests
             _deleteEmployeeMock = _repository.Create<IDeleteEmployee>();
             _updateEmployeeMock = _repository.Create<IUpdateEmployee>();
             _modelstateErrorLoggerMock = _repository.Create<IModelstateErrorLogger>();
-            valuesController = new ValuesController(_addEmployeeMock.Object, _deleteEmployeeMock.Object, _updateEmployeeMock.Object, _modelstateErrorLoggerMock.Object);
+            _cookieValidatorMock = _repository.Create<ICookieValidator>();
+            valuesController = new ValuesController(_addEmployeeMock.Object, _deleteEmployeeMock.Object, _updateEmployeeMock.Object, _modelstateErrorLoggerMock.Object, _cookieValidatorMock.Object);
         }
 
         [TestCleanup]

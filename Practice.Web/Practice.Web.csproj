@@ -188,6 +188,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="CookieOps\CookieValidator.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -197,6 +198,7 @@
       <DependentUpon>HttpReasonPhrases.resx</DependentUpon>
     </Compile>
     <Compile Include="IModelstateErrorLogger.cs" />
+    <Compile Include="Interfaces\ICookieValidator.cs" />
     <Compile Include="IOC\UnityHttpControllerActivator.cs" />
     <Compile Include="IOC\UnityResolver.cs" />
     <Compile Include="ModelstateErrors\ModelstateErrorLogger.cs" />
