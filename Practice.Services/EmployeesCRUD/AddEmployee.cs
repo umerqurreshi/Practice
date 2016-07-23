@@ -15,7 +15,7 @@ namespace Practice.Services.EmployeesCRUD
             _repo = repo;
         }
 
-        public async Task Add(List<Employees> emp)
+        public async Task AddEmployees(List<Employees> emp)
         {
             // Business logic - defensive coding - if succinct, never a bad thing!
             foreach (var employee in emp)
@@ -25,7 +25,14 @@ namespace Practice.Services.EmployeesCRUD
                     emp.Remove(employee);
                 }
             }
-           await _repo.Add(emp);
+           await _repo.AddEmployees(emp);
+        }
+
+        public async Task AddSingleEmployee(Employees emp)
+        {
+            // Business logic - defensive coding - if succinct, never a bad thing!
+            
+            await _repo.AddEmployee(emp);
         }
     }
 }

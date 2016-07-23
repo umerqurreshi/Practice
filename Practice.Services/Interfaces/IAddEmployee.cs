@@ -6,6 +6,7 @@ namespace Practice.Services.Interfaces
 {
     public interface IAddEmployee
     {
-        Task Add(List<Employees> emp);
+        Task AddEmployees(List<Employees> emp);
+        Task AddSingleEmployee(Employees emp);
     }
 }

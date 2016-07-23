@@ -43,10 +43,10 @@ namespace Practice.Web.Tests
         public void AddEmployee_ValidInputReturnsCorrectHttpResponseMessageStatus()
         {
             //Arrange
-            _addEmployeeMock.Setup(x => x.Add(It.IsAny<List<Employees>>()))
+            _addEmployeeMock.Setup(x => x.AddEmployees(It.IsAny<List<Employees>>()))
                 .Returns(Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)));
             //Act
-            var response = valuesController.AddEmployee(It.IsAny<List<Employees>>()).Result;
+            var response = valuesController.AddEmployees(It.IsAny<List<Employees>>()).Result;
             //Assert
             Assert.IsTrue(response.StatusCode == HttpStatusCode.OK);
         }
@@ -55,10 +55,10 @@ namespace Practice.Web.Tests
         public void AddEmployee_ValidInputReturnsCorrectHttpReasonPhrase()
         {
             //Arrange
-            _addEmployeeMock.Setup(x => x.Add(It.IsAny<List<Employees>>()))
+            _addEmployeeMock.Setup(x => x.AddEmployees(It.IsAny<List<Employees>>()))
                 .Returns(Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)));
             //Act
-            var response = valuesController.AddEmployee(It.IsAny<List<Employees>>()).Result;
+            var response = valuesController.AddEmployees(It.IsAny<List<Employees>>()).Result;
             //Assert
             Assert.IsTrue(response.ReasonPhrase == "Entry saved");
         }
@@ -79,7 +79,7 @@ namespace Practice.Web.Tests
             //Act
             valuesController.Configuration = new HttpConfiguration();
             valuesController.Validate(emp);
-            var response = valuesController.AddEmployee(emp).Result;
+            var response = valuesController.AddEmployees(emp).Result;
 
             //Assert
             Assert.IsTrue(response.StatusCode == HttpStatusCode.BadRequest);
@@ -103,7 +103,7 @@ namespace Practice.Web.Tests
             //Act
             valuesController.Configuration = new HttpConfiguration();
             valuesController.Validate(emp);
-            var response = valuesController.AddEmployee(emp).Result;
+            var response = valuesController.AddEmployees(emp).Result;
 
             //Assert
             Assert.IsTrue(response.ReasonPhrase == "Entry not saved. First name is required. ");

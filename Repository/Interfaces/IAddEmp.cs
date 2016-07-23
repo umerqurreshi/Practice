@@ -6,6 +6,7 @@ namespace Repository.Interfaces
 {
     public interface IAddEmp
     {
-        Task Add(List<Employees> emp);
+        Task AddEmployees(List<Employees> emp);
+        Task AddEmployee(Employees emp);
     }
 }

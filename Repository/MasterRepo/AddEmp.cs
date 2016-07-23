@@ -9,7 +9,7 @@ namespace Repository.MasterRepo
 {
     public class AddEmp : IAddEmp
     {
-        public async Task Add(List<Employees> emp)
+        public async Task AddEmployees(List<Employees> emp)
         {
             using (var context = new DataContext())
             {
@@ -26,7 +26,26 @@ namespace Repository.MasterRepo
                         await Task.Run(() => context.Employees.Add(emp[i]));
                     }
                 }
-                
+
+                context.SaveChanges();
+            }
+        }
+
+        public async Task AddEmployee(Employees emp)
+        {
+            using (var context = new DataContext())
+            {
+
+                var existingEmp = context.Employees.Where(x => x.EmployeeId == emp.EmployeeId).ToList();
+                if (existingEmp.Contains(emp))
+                {
+
+                }
+                else
+                {
+                    await Task.Run(() => context.Employees.Add(emp));
+                }
+
                 context.SaveChanges();
             }
         }

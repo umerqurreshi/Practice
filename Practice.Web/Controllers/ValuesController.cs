@@ -26,8 +26,8 @@ namespace Practice.Web.Controllers
         }
 
         [HttpPost]
-        [Route("employee/add")]
-        public async Task<HttpResponseMessage> AddEmployee(List<Employees> emp)
+        [Route("employees/add")]
+        public async Task<HttpResponseMessage> AddEmployees(List<Employees> emp)
         {
             //Use below commented out code when checking if returned obj is what you expect
 
@@ -48,7 +48,51 @@ namespace Practice.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                await _addEmployee.Add(emp);
+                await _addEmployee.AddEmployees(emp);
+
+                return new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    ReasonPhrase = HttpReasonPhrases.SuccessfulPost
+                };
+            }
+            else
+            {
+                string modelstateErrors = _modelstateErrorLogger.ModelstateErrors(ModelState);
+
+                return new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.BadRequest,
+                    ReasonPhrase = $"{HttpReasonPhrases.FailedPost}. {modelstateErrors}"
+                };
+
+            }
+        }
+
+        [HttpPost]
+        [Route("employee/add")]
+        public async Task<HttpResponseMessage> AddEmployee(Employees emp)
+        {
+            //Use below commented out code when checking if returned obj is what you expect
+
+            /*var content = Request.Content.ReadAsStringAsync().Result;
+            
+            var employeeObjCheck = JsonConvert.DeserializeObject<Employees>(content);
+
+            if (employeeObjCheck == null)
+            {
+                retVal = new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.BadRequest,
+                    ReasonPhrase = HttpReasonPhrases.FailedPost
+                };
+
+                return retVal;
+            }*/
+
+            if (ModelState.IsValid)
+            {
+                await _addEmployee.AddSingleEmployee(emp);
 
                 return new HttpResponseMessage
                 {
