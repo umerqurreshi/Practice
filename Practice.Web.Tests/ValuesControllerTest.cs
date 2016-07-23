@@ -43,7 +43,7 @@ namespace Practice.Web.Tests
         }
 
         [TestMethod]
-        public void AddEmployee_ValidInputReturnsCorrectHttpResponseMessageStatus()
+        public void AddEmployees_ValidInputReturnsCorrectHttpResponseMessageStatus()
         {
             //Arrange
             _addEmployeeMock.Setup(x => x.AddEmployees(It.IsAny<List<Employees>>()))
@@ -55,7 +55,7 @@ namespace Practice.Web.Tests
         }
 
         [TestMethod]
-        public void AddEmployee_ValidInputReturnsCorrectHttpReasonPhrase()
+        public void AddEmployees_ValidInputReturnsCorrectHttpReasonPhrase()
         {
             //Arrange
             _addEmployeeMock.Setup(x => x.AddEmployees(It.IsAny<List<Employees>>()))
@@ -67,7 +67,7 @@ namespace Practice.Web.Tests
         }
 
         [TestMethod]
-        public void AddEmployee_InvalidInputReturnsCorrectHttpResponseMessageStatus()
+        public void AddEmployees_InvalidInputReturnsCorrectHttpResponseMessageStatus()
         {
             //Arrange
             var emp = new List<Employees>
@@ -89,7 +89,7 @@ namespace Practice.Web.Tests
         }
 
         [TestMethod]
-        public void AddEmployee_InvalidInputReturnsCorrectHttpReasonPhrase()
+        public void AddEmployees_InvalidInputReturnsCorrectHttpReasonPhrase()
         {
             //Arrange
             var emp = new List<Employees>
